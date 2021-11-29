@@ -19,6 +19,23 @@ class JokesRepository extends ServiceEntityRepository
         parent::__construct($registry, Jokes::class);
     }
 
+//    public function findOneRandom()
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->Select('RAND() as HIDDEN rand')
+//            ->orderBy('rand')
+//            ->getQuery()
+//            ->setMaxResults(1)
+//            ->getResult();
+////        createQueryBuilder('j')
+////            ->select('j, RAND() AS HIDDEN r')
+////            ->from('jokes', 'j')
+////            ->orderBy('r', 'ASC')
+////            ->setMaxResults(1)
+////            ->getQuery()
+////            ->getResult()
+////            ;
+//    }
     // /**
     //  * @return Jokes[] Returns an array of Jokes objects
     //  */

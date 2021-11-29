@@ -9,12 +9,23 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="mb-4">Chuck Noris jokes</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/cedric/nchuckapi_web/src/Controller/JokesController.php'|file_link(0) }}">src/Controller/JokesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/cedric/nchuckapi_web/templates/jokes/index.html.twig'|file_link(0) }}">templates/jokes/index.html.twig</a></code></li>
-    </ul>
+    {% for joke in jokes %}
+        <div class="card bg-secondary text-light my-2">
+            <div class="card-body">
+                {{ joke|raw }}
+            </div>
+            <div class="card-footer fs-6 row">
+                <div class="col-6">
+                    rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="col-6 text-end">
+                    report
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
 </div>
 {% endblock %}

@@ -39,10 +39,20 @@ class Jokes
      */
     private $jokesRatings;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->jokesRatings = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->joke;
     }
 
     public function getId(): ?int
@@ -109,6 +119,18 @@ class Jokes
         if ($this->jokesRatings->removeElement($jokesRating)) {
             $jokesRating->removeJoke($this);
         }
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }
