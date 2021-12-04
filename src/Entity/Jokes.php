@@ -6,6 +6,7 @@ use App\Repository\JokesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=JokesRepository::class)
@@ -16,21 +17,25 @@ class Jokes
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("jokes:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("jokes:read")
      */
     private $joke;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("jokes:read")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("jokes:read")
      */
     private $updated_at;
 

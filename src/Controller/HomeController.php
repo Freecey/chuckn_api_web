@@ -14,7 +14,7 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $jokesRand = "lorem ipsum 123";
+        $jokesRand = $this->getDoctrine()->getRepository(Jokes::class)->findOneRandom();
 
 //        var_dump($jokesRand);
 //        die;

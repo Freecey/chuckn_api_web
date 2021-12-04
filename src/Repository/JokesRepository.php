@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Jokes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use mysql_xdevapi\Exception;
 
 /**
  * @method Jokes|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,23 +20,35 @@ class JokesRepository extends ServiceEntityRepository
         parent::__construct($registry, Jokes::class);
     }
 
-//    public function findOneRandom()
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->Select('RAND() as HIDDEN rand')
-//            ->orderBy('rand')
-//            ->getQuery()
-//            ->setMaxResults(1)
-//            ->getResult();
-////        createQueryBuilder('j')
-////            ->select('j, RAND() AS HIDDEN r')
-////            ->from('jokes', 'j')
-////            ->orderBy('r', 'ASC')
-////            ->setMaxResults(1)
-////            ->getQuery()
-////            ->getResult()
-////            ;
-//    }
+    public function findOneRandom()
+    {
+        $count = $this->createQueryBuilder('j')
+            ->select('COUNT(j)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $randJoke = $this->getRandJoke($count);
+
+        if ($randJoke == null)
+        {
+            for ($i = 0; $randJoke == null; $i++)
+            {
+                $randJoke = $this->getRandJoke($count);
+            }
+        }
+        return $randJoke;
+    }
+
+    private function getRandJoke(int $count)
+    {
+        return $this->createQueryBuilder('j')
+            ->where('j.id = :id')
+            ->setMaxResults(1)
+            ->setParameter('id', rand(0, $count - 1))
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Jokes[] Returns an array of Jokes objects
     //  */
@@ -64,4 +77,5 @@ class JokesRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
