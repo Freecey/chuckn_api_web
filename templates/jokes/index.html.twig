@@ -11,10 +11,14 @@
 <div class="example-wrapper">
     <h1 class="mb-4">Chuck Noris jokes</h1>
 
+    <div class="d-flex my-3">
+        {{ knp_pagination_render(jokes) }}
+    </div>
+
     {% for joke in jokes %}
         <div class="card bg-secondary text-light my-2">
             <div class="card-body">
-                {{ joke|raw }}
+                {{ joke.joke|raw }}
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
@@ -26,6 +30,9 @@
             </div>
         </div>
     {% endfor %}
+    <div class="d-flex my-4">
+        {{ knp_pagination_render(jokes) }}
+    </div>
 
 </div>
 {% endblock %}

@@ -8,15 +8,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class JokesController extends AbstractController
 {
     /**
      * @Route("/jokes", name="jokes.index")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $jokes = $this->getDoctrine()->getRepository(Jokes::class)->findAll();
+        $jokesdata = $this->getDoctrine()->getRepository(Jokes::class)->findAll();
+
+        $jokes = $paginator->paginate(
+            $jokesdata, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+//            5 // Nombre de résultats par page
+        );
 
         return $this->render('jokes/index.html.twig', [
             'controller_name' => 'JokesController',

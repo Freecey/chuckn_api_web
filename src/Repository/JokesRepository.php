@@ -49,6 +49,23 @@ class JokesRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+//    /**
+//    * @return Jokes[] Returns an array of Jokes objects
+//    */
+    public function findSearch($array)
+    {
+        $qb = $this->createQueryBuilder('j');
+        $qb ->select('j');
+        for ($i = 0; $i < count($array); $i++ )
+//        foreach ($array as $word)
+            {
+                $qb->orWhere('j.joke LIKE :joke'.$i)
+                    ->setParameter('joke'.$i , '%'.$array[$i].'%');
+            }
+//dd($qb->getQuery());
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Jokes[] Returns an array of Jokes objects
     //  */

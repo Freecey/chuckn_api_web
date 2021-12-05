@@ -1,30 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello SearchController!{% endblock %}
 
 {% block body %}
+
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
-    <div class="card bg-secondary text-light my-2">
-        <div class="card-body">
-            {{ jokeRand|raw }}
-        </div>
-        <div class="card-footer fs-6 row">
-            <div class="col-6">
-                rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-            </div>
-            <div class="col-6 text-end">
-                report
-            </div>
-        </div>
+    <div class="d-flex my-3">
+        {{ knp_pagination_render(jokes) }}
     </div>
 
-    Last add:
     {% for joke in jokes %}
         <div class="card bg-secondary text-light my-2">
             <div class="card-body">
-                {{ joke|raw }}
+                {{ joke.joke|raw }}
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
@@ -36,5 +26,10 @@
             </div>
         </div>
     {% endfor %}
+    <div class="d-flex my-4">
+        {{ knp_pagination_render(jokes) }}
+    </div>
+
+    <input type="text" name="search" value="{{ SearchTerms }}">
 </div>
 {% endblock %}
