@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\jokes;
 
 use App\Entity\Jokes;
 use App\Form\JokeFormType;
@@ -98,6 +98,32 @@ class JokesController extends AbstractController
         return $this->render('jokes/add.html.twig', [
             'controller_name' => 'JokesController',
             'jokeForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/jokes/rand', name: 'joke.rand')]
+    public function rand(): Response
+    {
+        $jokesRand = $this->getDoctrine()->getRepository(Jokes::class)->findOneRandom();
+        return $this->render('jokes/rand.html.twig', [
+            'controller_name' => 'JokesController.Rand',
+            'joke' => $jokesRand
+        ]);
+    }
+
+    #[Route('/jokes/{id}', name: 'joke.show')]
+    public function show(Request $request, int $id): Response
+    {
+        $joke = $this->getDoctrine()->getRepository(Jokes::class)->findOneBy(['id' => $id]);
+
+        if ($joke == null)
+        {
+            return $this->redirectToRoute('jokes.index');
+        }
+
+        return $this->render('jokes/show.html.twig', [
+            'controller_name' => 'JokesController',
+            'joke' => $joke,
         ]);
     }
 }
