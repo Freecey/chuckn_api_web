@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\jokes;
+namespace App\Controller;
 
 use App\Entity\Jokes;
 use App\Form\JokeFormType;
@@ -12,9 +12,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class JokesController extends AbstractController
 {
-    /**
-     * @Route("/jokes", name="jokes.index")
-     */
+    #[Route('jokes', name: 'jokes.index')]
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $jokesdata = $this->getDoctrine()->getRepository(Jokes::class)->findBy(
@@ -34,9 +32,7 @@ class JokesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/jokes/add", name="jokes.add")
-     */
+    #[Route('/jokes/add', name: 'jokes.add')]
     public function add(Request $request): Response
     {
         $joke = new Jokes();
@@ -61,9 +57,7 @@ class JokesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/jokes/reset", name="jokes.reset")
-     */
+    #[Route('/jokes/reset', name: 'jokes.reset')]
     public function reset(Request $request): Response
     {
         $joke = new Jokes();
