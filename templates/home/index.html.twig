@@ -1,40 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="mb-4">Découvrez les Facts Chuck Norris</h1>
 
-    <div class="card bg-secondary text-light my-2">
-        <div class="card-body">
-            {{ jokeRand|raw }}
-        </div>
-        <div class="card-footer fs-6 row">
-            <div class="col-6">
-                rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-            </div>
-            <div class="col-6 text-end">
-                report
-            </div>
-        </div>
-    </div>
-
-    Last add:
-    {% for joke in jokes %}
+    <section class="my-3">
+        Une petite  aléatoire:
         <div class="card bg-secondary text-light my-2">
             <div class="card-body">
-                {{ joke|raw }}
+                {{ jokeRand|raw }}
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
-                    rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <small>
+                        rating:
+                        {% set  raterand = random(5) %}
+                        {% for i in 0..4 %}
+                            <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                        {% endfor %}
+                        (soon rand at this time)
+                    </small>
                 </div>
                 <div class="col-6 text-end">
-                    report
+                    <small>
+                    report (soon)
+                    </small>
                 </div>
             </div>
         </div>
-    {% endfor %}
+    </section>
+
+    <section class="my-3">
+        Dernière ajouté:
+        {% for joke in jokes %}
+            <div class="card bg-secondary text-light my-2">
+                <div class="card-body">
+                    {{ joke|raw }}
+                </div>
+                <div class="card-footer fs-6 row">
+                    <div class="col-6">
+                        <small>
+                            rating:
+                            {% set  raterand = random(5) %}
+                            {% for i in 0..4 %}
+                            <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                            {% endfor %}
+                            (soon rand at this time)
+                        </small>
+                    </div>
+                    <div class="col-6 text-end">
+                        <small>
+                            report (soon)
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 </div>
 {% endblock %}

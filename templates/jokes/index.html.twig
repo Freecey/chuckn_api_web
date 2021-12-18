@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello JokesController!{% endblock %}
+{% block title %}Toutes les Facts{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,7 @@
 </style>
 
 <div class="example-wrapper">
-    <h1 class="mb-4">Chuck Noris jokes</h1>
+    <h1 class="mb-4">Chuck Noris facts</h1>
 
     <div class="d-flex my-3">
         {{ knp_pagination_render(jokes) }}
@@ -22,10 +22,15 @@
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
-                    rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    {% set  raterand = random(5) %}
+                    {% for i in 0..4 %}
+                        <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                    {% endfor %}
                 </div>
                 <div class="col-6 text-end">
-                    report
+                    <small>
+                        report (soon)
+                    </small>
                 </div>
             </div>
         </div>

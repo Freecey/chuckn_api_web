@@ -1,12 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchController!{% endblock %}
+{% block title %}Rechercher{% endblock %}
 
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="mb-3">Recherche de facts sur Chuck norris</h1>
 
+    <form class="d-flex" action="{{ path('search') }}" method="get">
+        <input class="form-control me-2" name="search" type="search" placeholder="Chercher" aria-label="Search" value="{{ (SearchTerms != '') ? SearchTerms : '' }}">
+        <button class="btn btn-outline-light px-5" type="submit">Rechercher</button>
+    </form>
+    <div>
+        <small>
+            {{ jokes.getTotalItemCount }} résultats ({{ execTime }} seconde{{ (execTime > 1 ) ? 's' : '' }})
+        </small>
+    </div>
     <div class="d-flex my-3">
         {{ knp_pagination_render(jokes) }}
     </div>
@@ -18,10 +27,15 @@
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
-                    rating: <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    {% set  raterand = random(5) %}
+                    {% for i in 0..4 %}
+                        <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                    {% endfor %}
                 </div>
                 <div class="col-6 text-end">
-                    report
+                    <small>
+                        report
+                    </small>
                 </div>
             </div>
         </div>
@@ -29,7 +43,5 @@
     <div class="d-flex my-4">
         {{ knp_pagination_render(jokes) }}
     </div>
-
-    <input type="text" name="search" value="{{ SearchTerms }}">
 </div>
 {% endblock %}

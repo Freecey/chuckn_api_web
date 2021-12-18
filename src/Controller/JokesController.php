@@ -17,7 +17,10 @@ class JokesController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $jokesdata = $this->getDoctrine()->getRepository(Jokes::class)->findAll();
+        $jokesdata = $this->getDoctrine()->getRepository(Jokes::class)->findBy(
+            array(),
+            array('id' => 'DESC')
+        );
 
         $jokes = $paginator->paginate(
             $jokesdata, // Requête contenant les données à paginer (ici nos articles)
@@ -47,6 +50,33 @@ class JokesController extends AbstractController
             $joke->setJoke();
             $joke->setValidated(true);
 
+//            $doctrine = $this->getDoctrine()->getManager();
+//            $doctrine->persist($joke);
+//            $doctrine->flush();
+        }
+
+        return $this->render('jokes/add.html.twig', [
+            'controller_name' => 'JokesController',
+            'jokeForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/jokes/reset", name="jokes.reset")
+     */
+    public function reset(Request $request): Response
+    {
+        $joke = new Jokes();
+
+        $form = $this->createForm(JokeFormType::class, $joke);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $joke->setJoke();
+            $joke->setValidated(true);
+
             $doctrine = $this->getDoctrine()->getManager();
             $doctrine->persist($joke);
             $doctrine->flush();
@@ -58,7 +88,7 @@ class JokesController extends AbstractController
 //        foreach ($file as $line )
 //            {
 //                $joke = new Jokes();
-//                $joke->setJoke($line);
+//                $joke->setJoke(trim(preg_replace('/\s\s+/', ' ', $line)));
 //                $joke->setValidated(true);
 //                $doctrine = $this->getDoctrine()->getManager();
 //                $doctrine->persist($joke);
@@ -71,3 +101,4 @@ class JokesController extends AbstractController
         ]);
     }
 }
+

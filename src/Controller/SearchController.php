@@ -14,6 +14,8 @@ class SearchController extends AbstractController
     #[Route('/search', name: 'search')]
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $startTime = microtime(true);
+
         $SearchTerms = $request->query->get('search');
 //        $SearchTerms = $request->request->get('search');
         $SearchReq = $SearchTerms;
@@ -43,6 +45,7 @@ class SearchController extends AbstractController
             'controller_name' => 'SearchController',
             'jokes' => $jokes,
             'SearchTerms' => $SearchTerms,
+            'execTime' => microtime(true) - $startTime,
         ]);
     }
 

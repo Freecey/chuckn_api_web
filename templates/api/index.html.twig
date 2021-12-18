@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello APIController!{% endblock %}
+{% block title %}API Info{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,29 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="text-center my-3">API utilisation info:</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/cedric/nchuckapi_web/src/Controller/APIController.php'|file_link(0) }}">src/Controller/APIController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/cedric/nchuckapi_web/templates/api/index.html.twig'|file_link(0) }}">templates/api/index.html.twig</a></code></li>
-    </ul>
+    <div class="border border p-2 my-3">
+        <div class="my-3">
+        Récupérez une fact aléatoire au format JSON.
+        </div>
+        <div class="mx-5 my-2 p-3 border-info bg-info">
+            <kbd>GET</kbd> <a class="ms-2 font-monospace" href="{{ app.request.getSchemeAndHttpHost() }}/api/rand">{{ app.request.getSchemeAndHttpHost() }}/api/rand</a>
+        </div>
+
+        <div class="mx-5 my-2 border border-3 rounded border-info bg-secondary  font-monospace fs-6"><div class="p-3">{{ rand_json|replace({'{': "{\n", "}" : "\n}", ',"' : ',\n"'})|nl2br }}</div></div>
+    </div>
+
+
+    <div class="border border p-2 my-3">
+        <div class="my-3">
+            Récupérez une fact spécifique au format JSON depuis son ID.
+        </div>
+        <div class="mx-5 my-2 p-3 border-info bg-info d-flex">
+            <kbd>GET</kbd> <a class="ms-2 font-monospace" href="{{ app.request.getSchemeAndHttpHost() }}/api/joke/{{ one_numb }}">{{ app.request.getSchemeAndHttpHost() }}/api/joke/{id}</a><span class="ms-auto font-monospace">{id}=<input type="text" style="width: 5ch" value="{{ one_numb }}" maxlength="4" disabled></span>
+        </div>
+
+        <div class="mx-5 my-2 border border-3 rounded border-info bg-secondary  font-monospace fs-6"><div class="p-3">{{ one_json|replace({'{': "{\n", "}" : "\n}", ',"' : ',\n"'})|nl2br }}</div></div>
+    </div>
 </div>
 {% endblock %}
