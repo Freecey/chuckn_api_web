@@ -4,7 +4,7 @@
 
 {% block body %}
     <section>
-        <h1 class="mb-4">Random Chuck Noris fact : <small>{{ joke.id }}</small></h1>
+        <h1 class="mb-4">Random Chuck Noris Fact <small>({{ joke.id }})</small></h1>
 
         <div class="card bg-secondary text-light my-2">
             <div class="card-body">
@@ -16,6 +16,7 @@
                     {% for i in 0..4 %}
                         <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
                     {% endfor %}
+                    ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
                 </div>
                 <div class="col-6 text-end">
                     <small>

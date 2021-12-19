@@ -11,7 +11,7 @@
             </div>
             <div class="col-12 col-lg-9 order-2 order-lg-1 my-3 my-lg-auto">
                 <h3>
-                    Découvrez Facts sur Chuck Norris, en Français depuis la page web ou l'API.
+                    Découvrez les Facts sur Chuck Norris, en Français depuis la page web ou l'API.
                 </h3>
                 <div class="my-3">
                     Un petit aléatoire:
@@ -26,7 +26,7 @@
                                     {% for i in 0..4 %}
                                         <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
                                     {% endfor %}
-                                    (<a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">{{ jokeRand.id }}</a>)
+                                    ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">#{{ jokeRand.id }}</a>
                                 </small>
                             </div>
                             <div class="col-6 text-end">
@@ -65,7 +65,7 @@
                             {% for i in 0..4 %}
                             <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
                             {% endfor %}
-                            (<a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">{{ joke.id }}</a>)
+                            ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
                         </small>
                     </div>
                     <div class="col-6 text-end">
@@ -77,7 +77,7 @@
             </div>
         {% endfor %}
         <div class="d-flex">
-            <a class="my-4 mx-auto btn btn-primary" href="{{ path('jokes.index') }}">Voire plus ...</a>
+            <a class="my-4 mx-auto btn btn-primary" href="{{ path('jokes.index') }}">Voir plus ...</a>
         </div>
     </section>
 </div>

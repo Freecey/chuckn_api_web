@@ -8,7 +8,7 @@
     <h1 class="mb-3">Recherche de facts sur Chuck norris</h1>
 
     <form class="d-flex" action="{{ path('search') }}" method="get">
-        <input class="form-control me-2" name="search" type="search" placeholder="Chercher" aria-label="Search" value="{{ (SearchTerms != '') ? SearchTerms : '' }}">
+        <input class="form-control me-2" name="search" type="search" placeholder="Chercher un Fact" aria-label="Search" value="{{ (SearchTerms != '') ? SearchTerms : '' }}">
         <button class="btn btn-outline-light px-5" type="submit">Rechercher</button>
     </form>
     <div>
@@ -31,7 +31,7 @@
                     {% for i in 0..4 %}
                         <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
                     {% endfor %}
-                    (<a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">{{ joke.id }}</a>)
+                    ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
                 </div>
                 <div class="col-6 text-end">
                     <small>
