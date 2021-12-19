@@ -4,32 +4,52 @@
 
 {% block body %}
 <div class="example-wrapper">
-    <h1 class="mb-4">Découvrez les Facts Chuck Norris</h1>
-
-    <section class="my-3">
-        Un petit aléatoire:
-        <div class="card bg-secondary text-light my-2">
-            <div class="card-body">
-                {{ jokeRand|raw }}
+    <section>
+        <div class="row">
+            <div class="col-12 col-lg-9 my-auto order-0 order-lg-0">
+                <h1 class="mb-4">CHUCKN Facts API</h1>
             </div>
-            <div class="card-footer fs-6 row">
-                <div class="col-6">
-                    <small>
-                        {% set  raterand = random(5) %}
-                        {% for i in 0..4 %}
-                            <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
-                        {% endfor %}
-                        (<a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">{{ jokeRand.id }}</a>)
-                    </small>
+            <div class="col-12 col-lg-9 order-2 order-lg-1 my-3 my-lg-auto">
+                <h3>
+                    Découvrez Facts sur Chuck Norris, en Français depuis la page web ou l'API.
+                </h3>
+                <div class="my-3">
+                    Un petit aléatoire:
+                    <div class="card bg-secondary text-light my-2">
+                        <div class="card-body">
+                            {{ jokeRand|raw }}
+                        </div>
+                        <div class="card-footer fs-6 row">
+                            <div class="col-6">
+                                <small>
+                                    {% set  raterand = random(5) %}
+                                    {% for i in 0..4 %}
+                                        <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                                    {% endfor %}
+                                    (<a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">{{ jokeRand.id }}</a>)
+                                </small>
+                            </div>
+                            <div class="col-6 text-end">
+                                <small>
+                                    report (soon)
+                                </small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6 text-end">
-                    <small>
-                    report (soon)
-                    </small>
+                <div class="d-flex">
+                    <a class="my-4 mx-auto btn btn-primary" href="{{ path('joke.rand') }}">Un autre ...</a>
                 </div>
+            </div>
+            <div class="col-12 col-lg-3 text-center order-1 order-lg-3">
+                <img src="{{ asset('assets/img/favpng/favpng_chuck-norris-facts-r1.webp') }}" width="100%" alt="Chuck Norris" style="max-width: 306px">
             </div>
         </div>
+
+
     </section>
+
+
 
     <section class="my-3">
         Dernière ajouté:
@@ -56,6 +76,9 @@
                 </div>
             </div>
         {% endfor %}
+        <div class="d-flex">
+            <a class="my-4 mx-auto btn btn-primary" href="{{ path('jokes.index') }}">Voire plus ...</a>
+        </div>
     </section>
 </div>
 {% endblock %}
