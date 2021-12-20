@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block description %}Découvrez la Fact n°{{ joke.id }} sur Chuck Norris Facts en Français. {{ joke|raw|u.truncate(64, '...', false) }}{% endblock %}
+
 {% block title %}le Fact n° {{ joke.id }} {% endblock %}
 
 {% block body %}
