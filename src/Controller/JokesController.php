@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Jokes;
+use App\Entity\JokesRatings;
 use App\Form\JokeFormType;
+use App\Repository\JokesRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,9 +16,9 @@ use Knp\Component\Pager\PaginatorInterface;
 class JokesController extends AbstractController
 {
     #[Route('jokes', name: 'jokes.index')]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator, JokesRepository $jokesRepository): Response
     {
-        $jokesdata = $this->getDoctrine()->getRepository(Jokes::class)->findBy(
+        $jokesdata = $jokesRepository->findBy(
             array(),
             array('id' => 'DESC')
         );
@@ -96,9 +99,9 @@ class JokesController extends AbstractController
     }
 
     #[Route('/jokes/rand', name: 'joke.rand')]
-    public function rand(): Response
+    public function rand(JokesRepository $jokesRepository): Response
     {
-        $jokesRand = $this->getDoctrine()->getRepository(Jokes::class)->findOneRandom();
+        $jokesRand = $jokesRepository->findOneRandom();
         return $this->render('jokes/rand.html.twig', [
             'controller_name' => 'JokesController.Rand',
             'joke' => $jokesRand
@@ -106,9 +109,9 @@ class JokesController extends AbstractController
     }
 
     #[Route('/jokes/{id}', name: 'joke.show')]
-    public function show(Request $request, int $id): Response
+    public function show(Request $request, int $id, JokesRepository $jokesRepository): Response
     {
-        $joke = $this->getDoctrine()->getRepository(Jokes::class)->findOneBy(['id' => $id]);
+        $joke = $jokesRepository->findOneBy(['id' => $id]);
 
         if ($joke == null)
         {
@@ -119,6 +122,12 @@ class JokesController extends AbstractController
             'controller_name' => 'JokesController',
             'joke' => $joke,
         ]);
+    }
+
+    #[Route('/jokes/{id}/rating', name: 'joke.rating')]
+    public function rating(): Response
+    {
+        return $this->json(['code'=>200, 'message'=> 'Futurn Rating'],200);
     }
 }
 

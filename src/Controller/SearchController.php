@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Jokes;
+use App\Repository\JokesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class SearchController extends AbstractController
 {
     #[Route('/search', name: 'search')]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator, JokesRepository $jokesRepository): Response
     {
         $startTime = microtime(true);
 
@@ -33,7 +34,7 @@ class SearchController extends AbstractController
         $ArraySearch = array_merge($LongArray, $ArraySearch);
         $ArraySearch = array_values(array_filter($ArraySearch));
 
-        $SearchJoke = $this->getDoctrine()->getRepository(Jokes::class)->findSearch($ArraySearch);
+        $SearchJoke = $jokesRepository->findSearch($ArraySearch);
 
         $jokes = $paginator->paginate(
             $SearchJoke, // Requête contenant les données à paginer (ici nos articles)
