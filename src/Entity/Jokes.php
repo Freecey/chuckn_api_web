@@ -139,4 +139,24 @@ class Jokes
 
         return $this;
     }
+
+    public function getJokesRatingsScore(): Int
+    {
+        $currentJokeRating = $this->getJokesRatings();
+
+        if (count($currentJokeRating) != 0)
+        {
+            $totalRateScore = 0;
+            foreach ($currentJokeRating as $rateScore) {
+                $totalRateScore += $rateScore->getRating();
+            }
+            $RatingScore = $totalRateScore/count($currentJokeRating);
+        }
+        else
+        {
+            $RatingScore = 0;
+        }
+
+        return $RatingScore;
+    }
 }

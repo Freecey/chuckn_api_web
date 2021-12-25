@@ -14,11 +14,10 @@
             </div>
             <div class="card-footer fs-6 row">
                 <div class="col-6">
-                    {% set  raterand = random(5) %}
-                    {% for i in 0..4 %}
-                        <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
+                    {% for i in 1..5 %}
+                        <i class="fa-solid fa-star" {{ ( i <= joke.jokesRatingsScore) ? 'style="color: goldenrod"' : '' }}></i>
                     {% endfor %}
-                    ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
+                    ({{ joke.jokesRatings|length }}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
                 </div>
                 <div class="col-6 text-end">
                     <small>

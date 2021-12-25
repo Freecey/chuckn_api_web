@@ -19,6 +19,24 @@ class JokesRatingsRepository extends ServiceEntityRepository
         parent::__construct($registry, JokesRatings::class);
     }
 
+
+
+    public function findOneLess24($value): ?JokesRatings
+    {
+        $date = new \DateTime();
+        $date->modify('-24 hour');
+
+        return $this->createQueryBuilder('jr')
+            ->andWhere(':joke_id MEMBER OF  jr.joke')
+            ->andWhere('jr.created_at > :date')
+            ->setParameters(array('date'=> $date, 'joke_id' => $value))
+//            ->setParameter('date', $date)
+//            ->setParameter('joke', $value->getId())
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return JokesRatings[] Returns an array of JokesRatings objects
     //  */

@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Jokes;
 use App\Entity\JokesRatings;
 use App\Form\JokeFormType;
+use App\Repository\JokesRatingsRepository;
 use App\Repository\JokesRepository;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +19,13 @@ class JokesController extends AbstractController
     #[Route('jokes', name: 'jokes.index')]
     public function index(Request $request, PaginatorInterface $paginator, JokesRepository $jokesRepository): Response
     {
-        $jokesdata = $jokesRepository->findBy(
+        $jokesData = $jokesRepository->findBy(
             array(),
             array('id' => 'DESC')
         );
 
         $jokes = $paginator->paginate(
-            $jokesdata, // Requête contenant les données à paginer (ici nos articles)
+            $jokesData, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
 //            5 // Nombre de résultats par page
         );
@@ -36,7 +37,7 @@ class JokesController extends AbstractController
     }
 
     #[Route('/jokes/add', name: 'jokes.add')]
-    public function add(Request $request): Response
+    public function add(Request $request, EntityManagerInterface $manager): Response
     {
         $joke = new Jokes();
 
@@ -46,12 +47,13 @@ class JokesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $joke->setJoke();
             $joke->setValidated(true);
+            $manager->persist($joke);
+            $manager->flush();
 
-//            $doctrine = $this->getDoctrine()->getManager();
-//            $doctrine->persist($joke);
-//            $doctrine->flush();
+//            RESET JOKE FORM
+            $joke = new Jokes();
+            $form = $this->createForm(JokeFormType::class, $joke);
         }
 
         return $this->render('jokes/add.html.twig', [
@@ -124,10 +126,62 @@ class JokesController extends AbstractController
         ]);
     }
 
-    #[Route('/jokes/{id}/rating', name: 'joke.rating')]
-    public function rating(): Response
+    #[Route('/jokes/{id}/rating/{rate}', name: 'joke.rating')]
+    public function rating(EntityManagerInterface $manager, int $id, int $rate, JokesRepository $jokesRepository, JokesRatingsRepository $jokesRatingsRepository): Response
     {
-        return $this->json(['code'=>200, 'message'=> 'Futurn Rating'],200);
+        if (  $rate < 1 || 5 < $rate ){
+            return $this->json(['code'=>401, 'message'=> "rate must be between 1-5"],401);
+        }
+
+        $onJoke = $jokesRepository->findOneBy(['id'=> $id]);
+
+        if ( $onJoke == null ){
+            return $this->json(['code'=>401, 'message'=> "Rating not possible, this joke id don't exist"],401);
+        }
+
+        $search = $jokesRatingsRepository->findOneLess24($onJoke);
+
+        if ( $search != null ){
+            return $this->json(['code'=>401, 'message'=> "Maximum one rating on a joke by day"],401);
+        }
+
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+
+        $jokeRating = new JokesRatings();
+        $jokeRating->setRating($rate)
+            ->addJoke($onJoke)
+            ->setIp($ipaddress);
+
+        $manager->persist($jokeRating);
+        $manager->flush();
+
+        $onJoke = $jokesRepository->findOneBy(['id'=> $id]);
+
+        $totalRateScore = 0;
+        foreach ($onJoke->getJokesRatings() as $rateScore) {
+            $totalRateScore += $rateScore->getRating();
+        }
+        $numberOfRating = count($onJoke->getJokesRatings()) != 0 ? count($onJoke->getJokesRatings()) : 1;
+        $RatingScore = $totalRateScore/$numberOfRating;
+//        dd(count($onJoke->getJokesRatings()));
+
+        $message = 'Future Rating '.$id.' from ip: '.$ipaddress.' RATING add:'.$rate.' -- Score '.$RatingScore.' Nmb of rate:'.count($onJoke->getJokesRatings());
+
+        return $this->json(['code'=>200, 'message'=> $message],200);
     }
 }
 
