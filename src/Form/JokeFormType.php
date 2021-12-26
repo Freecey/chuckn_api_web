@@ -14,9 +14,10 @@ class JokeFormType extends AbstractType
     {
         $builder
             ->add('joke')
-//            ->add('created_at')
-//            ->add('updated_at')
+            ->add('created_at')
+            ->add('updated_at')
 //            ->add('jokesRatings')
+            ->add('ratingScore')
             ->add('Submit', SubmitType::class)
         ;
     }
