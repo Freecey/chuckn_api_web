@@ -19,7 +19,7 @@ function onClickStar(event){
         const itag = this.querySelectorAll('i.fa-star');
         const spanMsg = this.querySelector('span.rating-msg');
 
-        var xmlhttp = ajaxReq();
+        let xmlhttp = ajaxReq();
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.send(null);
@@ -27,8 +27,7 @@ function onClickStar(event){
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 try {
-                    var response = JSON.parse(xmlhttp.responseText);
-                    console.log(response.status)
+                    let response = JSON.parse(xmlhttp.responseText);
 
                     if (response.status === 'add') {
                         spanCount.textContent = '('+response.nmbOfRate+')';
