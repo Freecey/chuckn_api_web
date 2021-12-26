@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Jokes;
+use App\Repository\JokesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,13 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(JokesRepository $jokesRepository): Response
     {
-        $jokesRand = $this->getDoctrine()->getRepository(Jokes::class)->findOneRandom();
+        $jokesRand = $jokesRepository->findOneRandom();
 
-//        var_dump($jokesRand);
-//        die;
-        $jokes = $this->getDoctrine()->getRepository(Jokes::class)->findBy(
+        $jokes = $jokesRepository->findBy(
             array(),
             array('id' => 'DESC'),
             5,

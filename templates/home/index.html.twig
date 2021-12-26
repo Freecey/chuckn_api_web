@@ -20,14 +20,11 @@
                             {{ jokeRand|raw }}
                         </div>
                         <div class="card-footer fs-6 row">
-                            <div class="col-6">
-                                <small>
-                                    {% set  raterand = random(5) %}
-                                    {% for i in 0..4 %}
-                                        <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
-                                    {% endfor %}
-                                    ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">#{{ jokeRand.id }}</a>
-                                </small>
+                            <div class="col-6 js-rating">
+                                {% for i in 1..5 %}
+                                    <a href="{{ path('joke.rating', { 'id': jokeRand.id, 'rate': i }) }}"><i class="fas fa-star" {{ ( i <= jokeRand.jokesRatingsScore) ? 'style="color: goldenrod"' : 'style="color: white"' }}></i></a>
+                                {% endfor %}
+                                <span class="js-count-rating">({{ jokeRand.jokesRatings|length }})</span> - <a class="text-light" href="{{ path('joke.show', {id: jokeRand.id}) }}">#{{ jokeRand.id }}</a> <span class="rating-msg"></span>
                             </div>
                             <div class="col-6 text-end">
                                 <small>
@@ -59,14 +56,11 @@
                     {{ joke|raw }}
                 </div>
                 <div class="card-footer fs-6 row">
-                    <div class="col-6">
-                        <small>
-                            {% set  raterand = random(5) %}
-                            {% for i in 0..4 %}
-                            <i class="fa-solid fa-star" {{ ( i <= raterand) ? 'style="color: goldenrod"' : '' }}></i>
-                            {% endfor %}
-                            ({{ random(250)}}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
-                        </small>
+                    <div class="col-6 js-rating">
+                        {% for i in 1..5 %}
+                            <a href="{{ path('joke.rating', { 'id': joke.id, 'rate': i }) }}"><i class="fas fa-star" {{ ( i <= joke.jokesRatingsScore) ? 'style="color: goldenrod"' : 'style="color: white"' }}></i></a>
+                        {% endfor %}
+                        <span class="js-count-rating">({{ joke.jokesRatings|length }})</span> - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a> <span class="rating-msg"></span>
                     </div>
                     <div class="col-6 text-end">
                         <small>
