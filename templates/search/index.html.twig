@@ -30,7 +30,7 @@
             <div class="card-footer fs-6 row">
                 <div class="col-6">
                     {% for i in 1..5 %}
-                        <i class="fa-solid fa-star" {{ ( i <= joke.jokesRatingsScore) ? 'style="color: goldenrod"' : '' }}></i>
+                        <i class="fa-solid fa-star" {{ ( i <= joke.RatingScore) ? 'style="color: goldenrod"' : '' }}></i>
                     {% endfor %}
                     ({{ joke.jokesRatings|length }}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
                 </div>

@@ -49,6 +49,14 @@ class Jokes
      */
     private $validated;
 
+    private $jokesRatingsScore;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups("jokes:read")
+     */
+    private $ratingScore;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -140,23 +148,35 @@ class Jokes
         return $this;
     }
 
-    public function getJokesRatingsScore(): Int
+//    public function getJokesRatingsScore(): float
+//    {
+//        $currentJokeRating = $this->getJokesRatings();
+//
+//        if (count($currentJokeRating) != 0)
+//        {
+//            $totalRateScore = 0;
+//            foreach ($currentJokeRating as $rateScore) {
+//                $totalRateScore += $rateScore->getRating();
+//            }
+//            $RatingScore = $totalRateScore/count($currentJokeRating);
+//        }
+//        else
+//        {
+//            $RatingScore = 0;
+//        }
+//
+//        return $RatingScore;
+//    }
+
+    public function getRatingScore(): ?float
     {
-        $currentJokeRating = $this->getJokesRatings();
+        return $this->ratingScore;
+    }
 
-        if (count($currentJokeRating) != 0)
-        {
-            $totalRateScore = 0;
-            foreach ($currentJokeRating as $rateScore) {
-                $totalRateScore += $rateScore->getRating();
-            }
-            $RatingScore = $totalRateScore/count($currentJokeRating);
-        }
-        else
-        {
-            $RatingScore = 0;
-        }
+    public function setRatingScore(?float $ratingScore): self
+    {
+        $this->ratingScore = $ratingScore;
 
-        return $RatingScore;
+        return $this;
     }
 }

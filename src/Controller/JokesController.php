@@ -165,7 +165,6 @@ class JokesController extends AbstractController
         $jokeRating->setRating($rate)
             ->addJoke($onJoke)
             ->setIp($ipaddress);
-
         $manager->persist($jokeRating);
         $manager->flush();
 
@@ -177,6 +176,10 @@ class JokesController extends AbstractController
         }
         $numberOfRating = count($onJoke->getJokesRatings()) != 0 ? count($onJoke->getJokesRatings()) : 1;
         $RatingScore = $totalRateScore/$numberOfRating;
+
+        $onJoke->setRatingScore($RatingScore);
+        $manager->persist($onJoke);
+        $manager->flush();
 
         return $this->json(['code'=>200, 'status' => 'add', 'message'=> 'Votre vote a été ajouté ', 'jokeId' => $onJoke->getId(), 'nmbOfRate' => count($onJoke->getJokesRatings()), 'ratingScore' => $RatingScore],200);
     }
