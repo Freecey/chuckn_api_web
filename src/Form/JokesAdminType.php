@@ -8,16 +8,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class JokeFormType extends AbstractType
+class JokesAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('joke')
-//            ->add('created_at')
-//            ->add('updated_at')
+            ->add('created_at')
+            ->add('updated_at')
+            ->add('validated')
+            ->add('ratingScore')
 //            ->add('jokesRatings')
-//            ->add('ratingScore')
             ->add('Submit', SubmitType::class)
         ;
     }

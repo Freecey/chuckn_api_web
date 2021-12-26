@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Jokes;
 use App\Form\JokeFormType;
+use App\Form\JokesAdminType;
 use App\Repository\JokesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -59,7 +60,7 @@ class AdminJokesController extends AbstractController
             $joke = $jokesRepository->findOneBy(['id' => $id]);
         }
 
-        $form = $this->createForm(JokeFormType::class, $joke);
+        $form = $this->createForm(JokesAdminType::class, $joke);
 
         $form->handleRequest($request);
 
@@ -68,7 +69,9 @@ class AdminJokesController extends AbstractController
             $joke->setValidated(true);
             $manager->persist($joke);
             $manager->flush();
+            $this->addFlash('success', 'Jokes Updated, Successfully');
 
+            return $this->redirectToRoute('admin.jokes');
         }
 
         return $this->render('admin/jokes/show.html.twig', [

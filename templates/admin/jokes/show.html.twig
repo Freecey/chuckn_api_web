@@ -5,6 +5,7 @@
 {% block adminmain %}
 
                 ONE JOKE EDIT
+    {{ form_start(jokeForm) }}
     <div class="row">
         <div class="col-12">
             {{ form_row(jokeForm.joke) }}
@@ -18,8 +19,10 @@
         <div class="col-4">
             {{ form_row(jokeForm.ratingScore) }}
         </div>
+        {{ form_row(jokeForm.validated) }}
     </div>
     {{ form_row(jokeForm.Submit) }}
+    {{ form_end(jokeForm) }}
 
 
 {% endblock %}
