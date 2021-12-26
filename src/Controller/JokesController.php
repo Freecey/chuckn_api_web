@@ -21,7 +21,7 @@ class JokesController extends AbstractController
     {
         $jokesData = $jokesRepository->findBy(
             array(),
-            array('id' => 'DESC')
+            array('ratingScore' => 'DESC', 'id' => 'DESC')
         );
 
         $jokes = $paginator->paginate(

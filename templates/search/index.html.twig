@@ -23,24 +23,7 @@
     </div>
 
     {% for joke in jokes %}
-        <div class="card bg-secondary text-light my-2">
-            <div class="card-body">
-                {{ joke.joke|raw }}
-            </div>
-            <div class="card-footer fs-6 row">
-                <div class="col-6">
-                    {% for i in 1..5 %}
-                        <i class="fa-solid fa-star" {{ ( i <= joke.RatingScore) ? 'style="color: goldenrod"' : '' }}></i>
-                    {% endfor %}
-                    ({{ joke.jokesRatings|length }}) - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a>
-                </div>
-                <div class="col-6 text-end">
-                    <small>
-                        report
-                    </small>
-                </div>
-            </div>
-        </div>
+        {% include '_part/_jokecard.html.twig' %}
     {% endfor %}
     <div class="d-flex my-4">
         {{ knp_pagination_render(jokes) }}

@@ -8,24 +8,7 @@
     <section>
         <h1 class="mb-4">Chuck Noris Fact <small>({{ joke.id }})</small></h1>
 
-            <div class="card bg-secondary text-light my-2">
-                <div class="card-body">
-                    {{ joke|raw }}
-                </div>
-                <div class="card-footer fs-6 row">
-                    <div class="col-6 js-rating">
-                        {% for i in 1..5 %}
-                            <a href="{{ path('joke.rating', { 'id': joke.id, 'rate': i }) }}"><i class="fas fa-star" {{ ( i <= joke.RatingScore) ? 'style="color: goldenrod"' : 'style="color: white"' }}></i></a>
-                        {% endfor %}
-                        <span class="js-count-rating">({{ joke.jokesRatings|length }})</span> - <a class="text-light" href="{{ path('joke.show', {id: joke.id}) }}">#{{ joke.id }}</a> <span class="rating-msg"></span>
-                    </div>
-                    <div class="col-6 text-end">
-                        <small>
-                            report (soon)
-                        </small>
-                    </div>
-                </div>
-            </div>
+        {% include '_part/_jokecard.html.twig' %}
 
     </section>
 {% endblock %}
