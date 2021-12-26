@@ -72,12 +72,13 @@
 </div>
 <script>
     const element = document.querySelector("#navbarToggler");
-    const btnelement = document.querySelector("#btn_navbarToggler");
+    const btnElement = document.querySelector("#btn_navbarToggler");
     document.addEventListener("click", (e) => {
         if (element.classList.contains("show") && !navbarToggler.contains(e.target)) {
-            btnelement.click()
+            btnElement.click()
         }
     });
 </script>
+<script src="{{ asset('assets/js/myajax.js') }}" ></script>
 </body>
 </html>

@@ -126,23 +126,23 @@ class JokesController extends AbstractController
         ]);
     }
 
-    #[Route('/jokes/{id}/rating/{rate}', name: 'joke.rating')]
+    #[Route('/jokes/{id}/rating/{rate}', name: 'joke.rating', methods: ["POST"])]
     public function rating(EntityManagerInterface $manager, int $id, int $rate, JokesRepository $jokesRepository, JokesRatingsRepository $jokesRatingsRepository): Response
     {
         if (  $rate < 1 || 5 < $rate ){
-            return $this->json(['code'=>401, 'message'=> "rate must be between 1-5"],401);
+            return $this->json(['code'=>200, 'message'=> "rating must be between 1-5"],200);
         }
 
         $onJoke = $jokesRepository->findOneBy(['id'=> $id]);
 
         if ( $onJoke == null ){
-            return $this->json(['code'=>401, 'message'=> "Rating not possible, this joke id don't exist"],401);
+            return $this->json(['code'=>200, 'message'=> "Rating not possible, this joke id don't exist"],200);
         }
 
         $search = $jokesRatingsRepository->findOneLess24($onJoke);
 
         if ( $search != null ){
-            return $this->json(['code'=>401, 'message'=> "Maximum one rating on a joke by day"],401);
+            return $this->json(['code'=>200, 'message'=> "Maximum un vote par jour"],200);
         }
 
         $ipaddress = '';
@@ -177,11 +177,8 @@ class JokesController extends AbstractController
         }
         $numberOfRating = count($onJoke->getJokesRatings()) != 0 ? count($onJoke->getJokesRatings()) : 1;
         $RatingScore = $totalRateScore/$numberOfRating;
-//        dd(count($onJoke->getJokesRatings()));
 
-        $message = 'Future Rating '.$id.' from ip: '.$ipaddress.' RATING add:'.$rate.' -- Score '.$RatingScore.' Nmb of rate:'.count($onJoke->getJokesRatings());
-
-        return $this->json(['code'=>200, 'message'=> $message],200);
+        return $this->json(['code'=>200, 'status' => 'add', 'message'=> 'Votre vote a été ajouté ', 'jokeId' => $onJoke->getId(), 'nmbOfRate' => count($onJoke->getJokesRatings()), 'ratingScore' => $RatingScore],200);
     }
 }
 
