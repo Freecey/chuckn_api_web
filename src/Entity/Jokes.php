@@ -57,10 +57,16 @@ class Jokes
      */
     private $ratingScore;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Report::class, mappedBy="joke")
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->jokesRatings = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     public function __toString()
@@ -176,6 +182,33 @@ class Jokes
     public function setRatingScore(?float $ratingScore): self
     {
         $this->ratingScore = $ratingScore;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->addJoke($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->removeElement($report)) {
+            $report->removeJoke($this);
+        }
 
         return $this;
     }
