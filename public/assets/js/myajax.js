@@ -1,3 +1,4 @@
+const xhttp = new XMLHttpRequest();
 function ajaxReq() {
     if (window.XMLHttpRequest) {
         return new XMLHttpRequest();
@@ -8,7 +9,7 @@ function ajaxReq() {
         return false;
     }
 }
-
+// FOR RATING
 function onClickStar(event){
     if (event.target.classList.contains('fa-star'))
     {
@@ -22,6 +23,7 @@ function onClickStar(event){
         let xmlhttp = ajaxReq();
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Neant", "AJAX");
         xmlhttp.send(null);
 
         xmlhttp.onreadystatechange = function () {
@@ -47,7 +49,6 @@ function onClickStar(event){
                         spanMsg.style.color = 'coral'
                         setTimeout(function(){ spanMsg.textContent = '';spanMsg.style.color = ''; }, 5000);
                     }
-
                 } catch (error) {
                     throw Error;
                 }
@@ -58,4 +59,63 @@ function onClickStar(event){
 
 document.querySelectorAll('div.js-rating').forEach(function(link){
     link.addEventListener('click', onClickStar)
+    })
+
+// FOR REPORT
+
+function onClickBtnModal(event){
+    let report_url = location.protocol + '//' + location.host + '/' + event.target.id.split('_')[0] + '/' + event.target.id.split('_')[1];
+    let divModal = document.querySelector('#modal_body_'+event.target.id.split('_')[1]);
+    let btn_report_submit = document.querySelector('#js-report-submit_' + event.target.id.split('_')[1]);
+    divModal.innerHTML = '<div class="spinner-border text-info" role="status">\n' +
+        '  <span class="visually-hidden">Loading...</span>\n' +
+        '</div>';
+    let paramsget = 'ajax=get';
+    let xmlhttp = ajaxReq();
+    xmlhttp.open("GET", report_url, true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Neant", "AJAX");
+    xmlhttp.send(paramsget);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            try {
+                let response = xmlhttp.responseText;
+                if ( response.includes("noSubmit") && btn_report_submit != null) {
+                    btn_report_submit.remove();
+                }
+                divModal.innerHTML = response;
+            } catch (error) {
+                divModal.innerHTML = error;
+            }
+        }
+    }
+    function onClickBtnSubmitModal(event){
+        event.preventDefault();
+        let report_url_post = location.protocol + '//' + location.host + '/report/post/' + event.target.id.split('_')[1];
+        let params = 'reason='+document.querySelector('#report_reason').value+'&token='+document.querySelector('#report__token'+event.target.id.split('_')[1]).value;
+        xmlhttp.open("POST", report_url_post, true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Neant", "AJAX");
+        xmlhttp.send(params);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                try {
+                    let response = xmlhttp.responseText;
+                    divModal.innerHTML = response;
+                    btn_report_submit.remove();
+                } catch (error) {
+                    throw Error;
+                    btn_report_submit.remove();
+                }
+            }
+        }
+    }
+
+    if (btn_report_submit != null) {
+        btn_report_submit.addEventListener('click', onClickBtnSubmitModal)
+    }
+}
+
+document.querySelectorAll('button.js-btn-report').forEach(function(link){
+    link.addEventListener('click', onClickBtnModal)
 })

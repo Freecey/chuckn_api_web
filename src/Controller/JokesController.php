@@ -139,12 +139,6 @@ class JokesController extends AbstractController
             return $this->json(['code'=>200, 'message'=> "Rating not possible, this joke id don't exist"],200);
         }
 
-        $search = $jokesRatingsRepository->findOneLess24($onJoke);
-
-        if ( $search != null ){
-            return $this->json(['code'=>200, 'message'=> "Maximum un vote par jour"],200);
-        }
-
         $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
@@ -160,6 +154,12 @@ class JokesController extends AbstractController
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         else
             $ipaddress = 'UNKNOWN';
+
+        $search = $jokesRatingsRepository->findOneLess24($onJoke, $ipaddress);
+
+        if ( $search != null ){
+            return $this->json(['code'=>200, 'message'=> "Maximum un vote par jour"],200);
+        }
 
         $jokeRating = new JokesRatings();
         $jokeRating->setRating($rate)

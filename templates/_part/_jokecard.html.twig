@@ -11,7 +11,34 @@
         </div>
         <div class="col-4 text-end">
             <small>
-                report (soon)
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-primary js-btn-report" data-bs-toggle="modal" data-bs-target="#Modal_{{ joke.id }}" id="report_{{ joke.id }}">
+                    report
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="Modal_{{ joke.id }}" tabindex="-1" aria-labelledby="ModalLabel_{{ joke.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark border-secondary">
+                            <form name="report" method="post" action="/report/{{ joke.id }}">
+                                <div class="modal-header bg-primary border-secondary">
+                                    <h5 class="modal-title" id="ModalLabel_{{ joke.id }}">Report sur le Fact {{ joke.id }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center" id="modal_body_{{ joke.id }}">
+                                    ...
+                                </div>
+                                <div class="modal-footer border-secondary">
+                                    <input type="hidden" id="report__token{{ joke.id }}" name="token" value="{{ csrf_token('report-t-' ~ joke.id) }}"/>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="submit" class="btn btn-primary" id="js-report-submit_{{ joke.id }}">Envoyer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </small>
         </div>
     </div>
