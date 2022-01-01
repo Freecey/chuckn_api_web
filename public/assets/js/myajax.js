@@ -23,6 +23,7 @@ function onClickStar(event){
         let xmlhttp = ajaxReq();
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Neant", "AJAX");
         xmlhttp.send(null);
 
         xmlhttp.onreadystatechange = function () {
@@ -69,9 +70,12 @@ function onClickBtnModal(event){
     divModal.innerHTML = '<div class="spinner-border text-info" role="status">\n' +
         '  <span class="visually-hidden">Loading...</span>\n' +
         '</div>';
+    let paramsget = 'ajax=get';
     let xmlhttp = ajaxReq();
     xmlhttp.open("GET", report_url, true);
-    xmlhttp.send(null);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Neant", "AJAX");
+    xmlhttp.send(paramsget);
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             try {
@@ -91,6 +95,7 @@ function onClickBtnModal(event){
         let params = 'reason='+document.querySelector('#report_reason').value+'&token='+document.querySelector('#report__token'+event.target.id.split('_')[1]).value;
         xmlhttp.open("POST", report_url_post, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Neant", "AJAX");
         xmlhttp.send(params);
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

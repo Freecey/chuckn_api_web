@@ -25,6 +25,11 @@ class ReportController extends AbstractController
     #[Route('/report/{id}', name: 'report.formReport', methods: ['GET'])]
     public function reportId(Request $request, int $id, JokesRepository $jokesRepository, EntityManagerInterface $manager, ReportRepository $reportRepository): Response
     {
+        if ($request->headers->get('neant') != 'AJAX') {
+            return $this->render('report/error.html.twig', [
+                'controller_name' => 'ReportController',
+            ]);
+        }
 
         $ipaddress = $this->getIPAddress();
 
@@ -68,6 +73,12 @@ class ReportController extends AbstractController
     #[Route('/report/post/{id}', name: 'report.postReport', methods: ['POST'])]
     public function postReport(Request $request, int $id, JokesRepository $jokesRepository, ReportRepository $reportRepository, EntityManagerInterface $manager): Response
     {
+        if ($request->headers->get('neant') != 'AJAX') {
+            return $this->render('report/error.html.twig', [
+                'controller_name' => 'ReportController',
+            ]);
+        }
+
         $ipaddress = $this->getIPAddress();
 
         $onJoke = $jokesRepository->findOneBy(['id'=> $id]);
