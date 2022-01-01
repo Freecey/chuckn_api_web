@@ -19,6 +19,23 @@ class ReportRepository extends ServiceEntityRepository
         parent::__construct($registry, Report::class);
     }
 
+    public function findOneLess7day($joke, $ipaddress): ?Report
+    {
+        $date = new \DateTime();
+        $date->modify('-7 day');
+
+        return $this->createQueryBuilder('r')
+            ->andWhere(':joke MEMBER OF  r.joke')
+            ->andWhere('r.created_At > :date')
+            ->andWhere('r.ip = :ipaddress')
+            ->setParameters(array('date'=> $date, 'joke' => $joke, 'ipaddress' => $ipaddress))
+//            ->setParameter('date', $date)
+//            ->setParameter('joke', $value->getId())
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Report[] Returns an array of Report objects
     //  */

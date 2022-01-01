@@ -41,6 +41,7 @@ class Report
 
     public function __construct()
     {
+        $this->created_At = new \DateTime();
         $this->joke = new ArrayCollection();
     }
 
