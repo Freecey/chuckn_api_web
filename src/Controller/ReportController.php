@@ -22,12 +22,21 @@ class ReportController extends AbstractController
         ]);
     }
 
-    #[Route('/report/{id}', name: 'report.formReport', methods: ['GET','POST'])]
-    public function reportId(Request $request, int $id, JokesRepository $jokesRepository, EntityManagerInterface $manager): Response
+    #[Route('/report/{id}', name: 'report.formReport', methods: ['GET'])]
+    public function reportId(Request $request, int $id, JokesRepository $jokesRepository, EntityManagerInterface $manager, ReportRepository $reportRepository): Response
     {
 
         $ipaddress = $this->getIPAddress();
-//        dd($request);
+
+        $onJoke = $jokesRepository->findOneBy(['id'=> $id]);
+
+        $search = $reportRepository->findOneLess7day($onJoke, $ipaddress);
+
+        if ( $search != null ){
+            return $this->render('report/already.html.twig', [
+                'controller_name' => 'ReportController',
+            ]);
+        }
 
         $report = new Report();
 
@@ -40,8 +49,7 @@ class ReportController extends AbstractController
         )
         {
             $report = $form->getData();
-            $joke = $jokesRepository->findOneBy(['id'=>$id]);
-            $report->addJoke($joke);
+            $report->addJoke($onJoke);
             $report->setIp($ipaddress);
             $manager->persist($report);
             $manager->flush();

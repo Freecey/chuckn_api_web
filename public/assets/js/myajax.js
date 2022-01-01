@@ -48,7 +48,6 @@ function onClickStar(event){
                         spanMsg.style.color = 'coral'
                         setTimeout(function(){ spanMsg.textContent = '';spanMsg.style.color = ''; }, 5000);
                     }
-
                 } catch (error) {
                     throw Error;
                 }
@@ -59,13 +58,14 @@ function onClickStar(event){
 
 document.querySelectorAll('div.js-rating').forEach(function(link){
     link.addEventListener('click', onClickStar)
-})
+    })
 
 // FOR REPORT
 
 function onClickBtnModal(event){
     let report_url = location.protocol + '//' + location.host + '/' + event.target.id.split('_')[0] + '/' + event.target.id.split('_')[1];
     let divModal = document.querySelector('#modal_body_'+event.target.id.split('_')[1]);
+    let btn_report_submit = document.querySelector('#js-report-submit_' + event.target.id.split('_')[1]);
     divModal.innerHTML = '<div class="spinner-border text-info" role="status">\n' +
         '  <span class="visually-hidden">Loading...</span>\n' +
         '</div>';
@@ -76,10 +76,12 @@ function onClickBtnModal(event){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             try {
                 let response = xmlhttp.responseText;
-                // console.log(response)
+                if ( response.includes("noSubmit") && btn_report_submit != null) {
+                    btn_report_submit.remove();
+                }
                 divModal.innerHTML = response;
             } catch (error) {
-                throw Error;
+                divModal.innerHTML = error;
             }
         }
     }
@@ -104,8 +106,6 @@ function onClickBtnModal(event){
         }
     }
 
-
-    let btn_report_submit = document.querySelector('#js-report-submit_' + event.target.id.split('_')[1]);
     if (btn_report_submit != null) {
         btn_report_submit.addEventListener('click', onClickBtnSubmitModal)
     }
