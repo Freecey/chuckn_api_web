@@ -35,22 +35,22 @@ class APIController extends AbstractController
     }
 
     #[Route('/api/rand', name: 'api.rand', methods: ["GET"])]
-    public function rand(JokesRepository $jokesRepository): Response
+    public function rand(JokesRepository $jokesRepository, SerializerInterface $serializer): Response
     {
         $jokesRand = $jokesRepository->findOneRandom();
 
-        $response = $this->json($jokesRand, 200, [], ['groups' => 'jokes:read']);
+        $response = new Response($serializer->serialize($jokesRand, 'json', ['groups' => 'jokes:read']), 200);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
 
     #[Route('/api/joke/{id}', name: 'api.jokeID', methods: ["GET"])]
-    public function getOne(JokesRepository $jokesRepository, int $id): Response
+    public function getOne(JokesRepository $jokesRepository, int $id, SerializerInterface $serializer): Response
     {
-        $jokesRand = $jokesRepository->findOneBy(['id' => $id]);
+        $joke = $jokesRepository->findOneBy(['id' => $id]);
 
-        $response = $this->json($jokesRand, 200, [], ['groups' => 'jokes:read']);
+        $response = new Response($serializer->serialize($joke, 'json', ['groups' => 'jokes:read']), 200);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
