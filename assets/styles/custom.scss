@@ -7,3 +7,15 @@ $primary:       #3941ad;
 bg-primary2 {
   background-color: #303793;
 }
+
+border-s-radius {
+  border: 1px solid;
+  border-top-left-radius: .25rem !important;
+  border-bottom-left-radius: .25rem !important;
+}
+
+border-e-radius {
+  border: 1px solid;
+  border-top-right-radius: .25rem !important;
+  border-bottom-right-radius: .25rem !important;
+}

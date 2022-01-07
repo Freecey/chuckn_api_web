@@ -35,6 +35,28 @@ class JokesController extends AbstractController
         return $this->render('jokes/index.html.twig', [
             'controller_name' => 'JokesController',
             'jokes' => $jokes,
+            'sort' => 'rating',
+        ]);
+    }
+
+    #[Route('jokes/recent', name: 'jokes.recent')]
+    public function recent(Request $request, PaginatorInterface $paginator, JokesRepository $jokesRepository): Response
+    {
+        $jokesData = $jokesRepository->findBy(
+            array(),
+            array('created_at' => 'DESC', 'id' => 'DESC')
+        );
+
+        $jokes = $paginator->paginate(
+            $jokesData, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+//            5 // Nombre de résultats par page
+        );
+
+        return $this->render('jokes/index.html.twig', [
+            'controller_name' => 'JokesController',
+            'jokes' => $jokes,
+            'sort' => 'recent',
         ]);
     }
 
