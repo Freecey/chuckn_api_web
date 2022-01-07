@@ -20,6 +20,9 @@
                     <a class="btn nav-link {% if controller_name == "APIController" %}active btn-primary bg-primary2 {% endif %}" {% if controller_name == "APIController" %}aria-current="page"{% endif %} href="{{ path('api.index') }}">API</a>
                 </li>
             </ul>
+            <div class="nav-item">
+                <a class="nav-link me-0 me-lg-3 mb-3 mb-lg-0 btn {% if controller_name == "JokesController.Add" %}active btn-primary bg-primary2{% else%} btn-dark text-warning{% endif %}" href="{{ path('jokes.add') }}">Proposer Fact</a>
+            </div>
             <form class="d-flex" action="{{ path('search') }}" method="get">
                 <input class="form-control me-2" name="search" type="search" placeholder="Chercher un Fact" aria-label="Rechercher">
                 <button class="btn btn-outline-light" type="submit">Rechercher</button>

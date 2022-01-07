@@ -6,7 +6,20 @@
 
 {% block body %}
 <section>
-    <h1 class="mb-4">Chuck Noris Facts</h1>
+    <div class="row mb-4">
+        <div class="col-12 col-lg-6">
+                <h1>Chuck Noris Facts</h1>
+        </div>
+        <div class="col-12 col-lg-6 text-end">
+            <a href="{{ path('jokes.index') }}" class="border border-warning rounded mx-1 p-2 border-s-radius text-light text-decoration-none {% if sort == "rating" %} btn-primary {% else%} bg-dark {% endif %} bg-gradient">
+                Les mieux notés
+            </a>
+            <a href="{{ path('jokes.recent') }}" class="border border-warning rounded mx-1 p-2 border-e-radius text-light text-decoration-none {% if sort == "recent" %} bg-primary {% else%} bg-dark {% endif %} bg-gradient">
+                Les plus récents
+            </a>
+        </div>
+    </div>
+
 
     <div class="d-flex my-3">
         {{ knp_pagination_render(jokes) }}

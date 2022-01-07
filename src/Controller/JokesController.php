@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Jokes;
 use App\Entity\JokesRatings;
+use App\Entity\NewJokes;
 use App\Form\JokeFormType;
+use App\Form\NewJokesType;
 use App\Repository\JokesRatingsRepository;
 use App\Repository\JokesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,31 +35,57 @@ class JokesController extends AbstractController
         return $this->render('jokes/index.html.twig', [
             'controller_name' => 'JokesController',
             'jokes' => $jokes,
+            'sort' => 'rating',
+        ]);
+    }
+
+    #[Route('jokes/recent', name: 'jokes.recent')]
+    public function recent(Request $request, PaginatorInterface $paginator, JokesRepository $jokesRepository): Response
+    {
+        $jokesData = $jokesRepository->findBy(
+            array(),
+            array('created_at' => 'DESC', 'id' => 'DESC')
+        );
+
+        $jokes = $paginator->paginate(
+            $jokesData, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+//            5 // Nombre de résultats par page
+        );
+
+        return $this->render('jokes/index.html.twig', [
+            'controller_name' => 'JokesController',
+            'jokes' => $jokes,
+            'sort' => 'recent',
         ]);
     }
 
     #[Route('/jokes/add', name: 'jokes.add')]
     public function add(Request $request, EntityManagerInterface $manager): Response
     {
-        $joke = new Jokes();
+        $newJoke = new NewJokes();
 
-        $form = $this->createForm(JokeFormType::class, $joke);
+        $form = $this->createForm(NewJokesType::class, $newJoke);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $joke->setValidated(true);
-            $manager->persist($joke);
+            $manager->persist($newJoke);
             $manager->flush();
 
 //            RESET JOKE FORM
-            $joke = new Jokes();
-            $form = $this->createForm(JokeFormType::class, $joke);
+            $joke = new $newJoke();
+            $form = $this->createForm(NewJokesType::class, $joke);
+
+            $this->addFlash(
+                'message',
+                'Votre Fact a été enregistré avec succès!'
+            );
         }
 
         return $this->render('jokes/add.html.twig', [
-            'controller_name' => 'JokesController',
+            'controller_name' => 'JokesController.Add',
             'jokeForm' => $form->createView(),
         ]);
     }
