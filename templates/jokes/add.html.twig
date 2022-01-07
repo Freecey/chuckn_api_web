@@ -4,9 +4,27 @@
 
 {% block body %}
 
-    <div class="col-md-6 mx-auto">
-        <h1 class="mb-4">Add Chuck Noris jokes</h1>
-        {{ form(jokeForm) }}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success text-center" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
 
-    </div>
+    <section>
+        <h1 class="mb-4 text-center">Proposer votre Chuck Norris Fact!</h1>
+        <div class="row">
+            <div class="col-12 col-lg-9 order-2 order-lg-1 my-3 my-lg-auto">
+                <div>
+                    {{ form(jokeForm) }}
+                </div>
+                <div class="my-4 text-center">
+                    Si celui-ci est validé, il apparaîtra  sur le site.
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 text-center order-1 order-lg-3">
+                <img src="{{ asset('assets/img/favpng/favpng_chuck-norris-facts-2.webp') }}" width="100%" alt="Chuck Norris" style="max-width: 306px">
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

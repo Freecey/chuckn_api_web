@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Jokes;
 use App\Entity\JokesRatings;
+use App\Entity\NewJokes;
 use App\Form\JokeFormType;
+use App\Form\NewJokesType;
 use App\Repository\JokesRatingsRepository;
 use App\Repository\JokesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,25 +41,29 @@ class JokesController extends AbstractController
     #[Route('/jokes/add', name: 'jokes.add')]
     public function add(Request $request, EntityManagerInterface $manager): Response
     {
-        $joke = new Jokes();
+        $newJoke = new NewJokes();
 
-        $form = $this->createForm(JokeFormType::class, $joke);
+        $form = $this->createForm(NewJokesType::class, $newJoke);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $joke->setValidated(true);
-            $manager->persist($joke);
+            $manager->persist($newJoke);
             $manager->flush();
 
 //            RESET JOKE FORM
-            $joke = new Jokes();
-            $form = $this->createForm(JokeFormType::class, $joke);
+            $joke = new $newJoke();
+            $form = $this->createForm(NewJokesType::class, $joke);
+
+            $this->addFlash(
+                'message',
+                'Votre Fact a été enregistré avec succès!'
+            );
         }
 
         return $this->render('jokes/add.html.twig', [
-            'controller_name' => 'JokesController',
+            'controller_name' => 'JokesController.Add',
             'jokeForm' => $form->createView(),
         ]);
     }
