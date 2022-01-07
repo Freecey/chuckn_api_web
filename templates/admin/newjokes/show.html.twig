@@ -1,0 +1,24 @@
+{% extends 'admin/_part/_main.html.twig' %}
+
+{% block title %}Hello AdminJokesController!{% endblock %}
+
+{% block adminmain %}
+
+                ONE JOKE EDIT
+    {{ form_start(jokeForm) }}
+    <div class="row">
+        <div class="col-12">
+            {{ form_row(jokeForm.joke) }}
+        </div>
+        <div class="col-4">
+            {{ form_row(jokeForm.created_at) }}
+        </div>
+        <div class="col-4">
+            {{ form_row(jokeForm.vote) }}
+        </div>
+    </div>
+    {{ form_row(jokeForm.Submit) }}
+    {{ form_end(jokeForm) }}
+
+
+{% endblock %}
