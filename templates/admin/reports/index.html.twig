@@ -1,30 +1,30 @@
 {% extends 'admin/_part/_main.html.twig' %}
 
-{% block title %}Hello AdminNewJokesController!{% endblock %}
+{% block title %}Hello AdminReportsController!{% endblock %}
 
 {% block adminmain %}
-    <div>
-        <small>
-            {{ jokes.getTotalItemCount }} résultats ({{ execTime }} seconde{{ (execTime > 1 ) ? 's' : '' }})
-        </small>
-    </div>
+
     <table class="table table-dark table-hover w-100">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Joke</th>
+            <th scope="col">Score</th>
             <th scope="col">vote</th>
             <th scope="col">Created</th>
+            <th scope="col">Report</th>
         </tr>
         </thead>
         <tbody>
         {% for joke in jokes %}
             <tr>
                 <th scope="row">{{ joke.id }}</th>
-                <td><a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
+                <td><a href="{{ path('admin.report.show', { 'id': joke.id}) }}"
                        class="text-white text-decoration-none">{{ joke.joke }}</a></td>
-                <td>{{ joke.vote }}</td>
+                <td>{{ joke.RatingScore|round(2, 'floor') }}</td>
+                <td>{{ joke.jokesRatings|length }}</td>
                 <td>{{ joke.createdAt|date("m/d/Y") }}</td>
+                <td>{{ joke.reports|length }}</td>
 
             </tr>
         {% endfor %}

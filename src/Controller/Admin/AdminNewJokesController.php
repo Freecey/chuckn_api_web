@@ -47,7 +47,7 @@ class AdminNewJokesController extends AbstractController
         );
 
         return $this->render('admin/newjokes/index.html.twig', [
-            'controller_name' => 'AdminJokesController',
+            'controller_name' => 'AdminNewJokesController',
             'jokes' => $jokes,
             'SearchTerms' => '',
             'execTime' => microtime(true) - $startTime,
@@ -76,7 +76,7 @@ class AdminNewJokesController extends AbstractController
         }
 
         return $this->render('admin/newjokes/show.html.twig', [
-            'controller_name' => 'AdminJokesController',
+            'controller_name' => 'AdminNewJokesController',
             'jokeForm' => $form->createView(),
         ]);
     }

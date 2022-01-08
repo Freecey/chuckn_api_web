@@ -66,6 +66,19 @@ class JokesRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findReports()
+    {
+        $qb = $this->createQueryBuilder('j')
+            ->select('j')
+            ->join('j.reports', 'r');
+//            ->select("j")
+//            ->where('r' != '');
+//        ->from("Test t")
+//            ->where($qb->expr()->isNotNull("j.reports"))
+        return $qb->getQuery()->getResult();
+    }
+
+
     // /**
     //  * @return Jokes[] Returns an array of Jokes objects
     //  */
