@@ -1,0 +1,28 @@
+{% extends 'admin/_part/_main.html.twig' %}
+
+{% block title %}Hello AdminJokesController!{% endblock %}
+
+{% block adminmain %}
+
+                ONE JOKE EDIT
+    {{ form_start(jokeForm) }}
+    <div class="row">
+        <div class="col-12">
+            {{ form_row(jokeForm.joke) }}
+        </div>
+        <div class="col-4">
+            {{ form_row(jokeForm.created_at) }}
+        </div>
+        <div class="col-4">
+            {{ form_row(jokeForm.vote) }}
+        </div>
+    </div>
+    <div class="d-flex">
+    {{ form_row(jokeForm.Submit) }} <div class="ms-3"><a class="btn btn-success" href="{{ path('admin.newjokes.valid', { 'id': jokeForm.vars.value.id}) }}">Valide</a></div>
+    </div>
+    {{ form_end(jokeForm) }}
+
+
+
+
+{% endblock %}

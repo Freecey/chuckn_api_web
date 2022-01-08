@@ -1,6 +1,7 @@
-<ul>
-    <li><a href="{{ path('admin.index') }}">Admin Home</a></li>
-    <li><a href="{{ path('admin.jokes') }}">Jokes</a></li>
-    <li><a href="#">Waiting Approval</a></li>
-    <li><a href="#">Users</a></li>
-</ul>
+<div class="list-group">
+    <a class="list-group-item list-group-item-action list-group-item-dark {% if controller_name == "AdminController" %} active{% endif %}" href="{{ path('admin.index') }}">Admin Home</a>
+    <a class="list-group-item list-group-item-action list-group-item-dark {% if controller_name == "AdminJokesController" %} active{% endif %}" href="{{ path('admin.jokes') }}">Jokes</a>
+    <a class="list-group-item list-group-item-action list-group-item-dark {% if controller_name == "AdminNewJokesController" %} active{% endif %}" href="{{ path('admin.newjokes.index') }}">Waiting Approval</a>
+    <a class="list-group-item list-group-item-action list-group-item-dark {% if controller_name == "AdminReportsController" %} active{% endif %}" href="{{ path('admin.report.index') }}">Reports</a>
+    <a class="list-group-item list-group-item-action list-group-item-dark {% if controller_name == "AdminUserController" %} active{% endif %}" href="#">Users</a>
+</div>
