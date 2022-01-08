@@ -57,7 +57,7 @@ class AdminNewJokesController extends AbstractController
     public function show(int $id, Request $request, EntityManagerInterface $manager, NewJokesRepository $newJokesRepository): Response
     {
         if ($id == null) {
-            $joke = new Jokes();
+            return $this->redirectToRoute('admin.newjokes.index');
         } else {
             $joke = $newJokesRepository->findOneBy(['id' => $id]);
         }
@@ -79,6 +79,29 @@ class AdminNewJokesController extends AbstractController
             'controller_name' => 'AdminNewJokesController',
             'jokeForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('admin/newjokes/{id}/valid', name: 'admin.newjokes.valid')]
+    public function valid(int $id, Request $request, NewJokesRepository $newJokesRepository, EntityManagerInterface $manager): Response
+    {
+//        TODO: fix save if edited before valid
+        if ($id == null) {
+            return $this->redirectToRoute('admin.newjokes.index');
+        } else {
+            $newJoke = $newJokesRepository->findOneBy(['id' => $id]);
+        }
+
+        $joke = new Jokes();
+        $joke->setJoke($newJoke->getJoke())
+            ->setCreatedAt($newJoke->getCreatedAt())
+            ->setValidated(true);
+        $manager->persist($joke);
+        $manager->remove($newJoke);
+        $manager->flush();
+        $this->addFlash('success', 'Jokes Validated, Successfully');
+
+
+        return $this->redirectToRoute('admin.jokes.show', [ 'id' => $joke->getId()]);
     }
 
     public function get_string_between($string, $start, $end): string

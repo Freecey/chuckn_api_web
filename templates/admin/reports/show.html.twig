@@ -44,8 +44,7 @@
                 <td>{{ report.reason }}</td>
                 <td>{{ report.ip }}</td>
                 <td>{{ report.created_at|date("m/d/Y") }}</td>
-                <td>Edit / Del</td>
-
+                <td><a class="btn btn-sm btn-warning" href="#">Edit</a> <a class="btn btn-sm btn-danger ms-2" href="{{ path('admin.report.del', {id: report.id}) }}">Del</a></td>
             </tr>
         {% endfor %}
         </tbody>

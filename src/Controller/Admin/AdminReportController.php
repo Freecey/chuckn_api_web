@@ -6,6 +6,8 @@ use App\Entity\Jokes;
 use App\Form\JokeFormType;
 use App\Form\JokesAdminType;
 use App\Repository\JokesRepository;
+use App\Repository\NewJokesRepository;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,5 +57,19 @@ class AdminReportController extends AbstractController
             'controller_name' => 'AdminReportsController',
             'joke' => $joke,
         ]);
+    }
+    
+//TODO: Edit report ...
+
+    #[Route('admin/report/{id}/del', name: 'admin.report.del')]
+    public function del(int $id, ReportRepository $reportRepository, EntityManagerInterface $manager): Response
+    {
+        $report = $reportRepository->findOneBy(['id' => $id]);
+
+        $manager->remove($report);
+        $manager->flush();
+        $this->addFlash('success', 'Report Deleted, Successfully');
+
+        return $this->redirectToRoute('admin.report.index');
     }
 }

@@ -17,8 +17,12 @@
             {{ form_row(jokeForm.vote) }}
         </div>
     </div>
-    {{ form_row(jokeForm.Submit) }}
+    <div class="d-flex">
+    {{ form_row(jokeForm.Submit) }} <div class="ms-3"><a class="btn btn-success" href="{{ path('admin.newjokes.valid', { 'id': jokeForm.vars.value.id}) }}">Valide</a></div>
+    </div>
     {{ form_end(jokeForm) }}
+
+
 
 
 {% endblock %}

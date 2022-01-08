@@ -15,16 +15,23 @@
             <th scope="col">Joke</th>
             <th scope="col">vote</th>
             <th scope="col">Created</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
         {% for joke in jokes %}
             <tr>
                 <th scope="row">{{ joke.id }}</th>
-                <td><a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
-                       class="text-white text-decoration-none">{{ joke.joke }}</a></td>
+                <td>{{ joke.joke }}</a></td>
                 <td>{{ joke.vote }}</td>
                 <td>{{ joke.createdAt|date("m/d/Y") }}</td>
+                <td class="text-end"><a href="{{ path('admin.newjokes.valid', { 'id': joke.id}) }}"
+                       class="btn btn-success">Valide</a>
+                    <a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
+                       class="btn btn-warning">Edit</a>
+                    <a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
+                       class="btn btn-danger">Del</a>
+                </td>
 
             </tr>
         {% endfor %}
