@@ -58,7 +58,7 @@ class AdminReportController extends AbstractController
             'joke' => $joke,
         ]);
     }
-    
+
 //TODO: Edit report ...
 
     #[Route('admin/report/{id}/del', name: 'admin.report.del')]

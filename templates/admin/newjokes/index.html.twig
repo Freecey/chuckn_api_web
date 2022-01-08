@@ -29,10 +29,10 @@
                        class="btn btn-success">Valide</a>
                     <a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
                        class="btn btn-warning">Edit</a>
-                    <a href="{{ path('admin.newjokes.show', { 'id': joke.id}) }}"
+                    <a href="{{ path('admin.newjokes.del', { 'id': joke.id}) }}"
                        class="btn btn-danger">Del</a>
                 </td>
-
+{#TODO: Add JS validation for val & del#}
             </tr>
         {% endfor %}
         </tbody>

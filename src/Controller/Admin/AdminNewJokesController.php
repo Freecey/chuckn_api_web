@@ -104,6 +104,18 @@ class AdminNewJokesController extends AbstractController
         return $this->redirectToRoute('admin.jokes.show', [ 'id' => $joke->getId()]);
     }
 
+    #[Route('admin/newjokes/{id}/del', name: 'admin.newjokes.del')]
+    public function del(int $id, NewJokesRepository $newJokesRepository, EntityManagerInterface $manager): Response
+    {
+        $newJoke = $newJokesRepository->findOneBy(['id' => $id]);
+
+        $manager->remove($newJoke);
+        $manager->flush();
+        $this->addFlash('success', 'Submitted New Joke Deleted, Successfully');
+
+        return $this->redirectToRoute('admin.newjokes.index');
+    }
+
     public function get_string_between($string, $start, $end): string
     {
         $string = ' ' . $string;
